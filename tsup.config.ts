@@ -2,10 +2,9 @@ import { defineConfig } from 'tsup';
 import glob from 'fast-glob';
 
 const components = glob.sync('src/components/**/*.tsx', { absolute: true });
-const svgIcons = glob.sync('src/icons/**/*.svg', { absolute: true });
 
 export default defineConfig({
-  entry: [...components, ...svgIcons],
+  entry: [...components],
   format: ['esm'],
   dts: true,
   minify: true,
@@ -15,7 +14,4 @@ export default defineConfig({
   splitting: true,
   shims: false,   
   outDir: 'dist',
-  loader: {
-    '.svg': 'jsx',
-  },
 });
