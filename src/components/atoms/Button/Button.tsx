@@ -1,5 +1,3 @@
-import './button.css';
-
 export type ButtonProps = {
   backgroundColor?: string;
   label: string;
