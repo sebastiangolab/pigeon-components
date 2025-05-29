@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import { Button2 } from './Button2';
+import { Button2 } from './';
 
 const meta = {
   title: 'Example/Button2',
