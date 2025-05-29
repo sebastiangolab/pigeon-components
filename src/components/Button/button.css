@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.button {
+  @apply px-4 py-2 text-white rounded cursor-pointer hover:opacity-80 hover:transition-opacity;
+}
