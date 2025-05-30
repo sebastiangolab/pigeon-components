@@ -6,8 +6,8 @@
     "dist"
   ],
   "scripts": {
-    "build:light": "tsup && THEME=light node scripts/build-css.js && node scripts/build-icons.js",
-    "build:dark": "tsup && THEME=dark node scripts/build-css.js && node scripts/build-icons.js",
+    "build:css": "node scripts/build-css.js",
+    "build": "tsup && npm run build:css && node scripts/build-icons.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "vitest --project=storybook"

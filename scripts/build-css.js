@@ -1,15 +1,27 @@
-import fs from 'fs';
+import { readdirSync, readFileSync, writeFileSync, unlinkSync } from 'fs';
 import { execSync } from 'child_process';
+import path from 'path';
 
-const theme = process.env.THEME || 'light';
+const indexCss = readFileSync('src/index.css', 'utf-8');
 
-const themeCss = fs.readFileSync(`src/themes/theme-${theme}.css`, 'utf8');
-const baseCss = fs.readFileSync('src/index.css', 'utf8');
+const themesDir = 'src/themes';
+const themeFiles = readdirSync(themesDir).filter(file =>
+  file.startsWith('theme-') && file.endsWith('.css')
+);
 
-const combined = `${themeCss}\n${baseCss}`;
+themeFiles.forEach(file => {
+  const themeName = path.basename(file, '.css').replace('theme-', '');
+  const themeCss = readFileSync(path.join(themesDir, file), 'utf-8');
 
-fs.writeFileSync('src/.temp-combined.css', combined);
+  const tmpFilePath = `src/.tmp-combined-${themeName}.css`;
 
-execSync(`npx @tailwindcss/cli -i src/.temp-combined.css -o dist/styles.css --minify`);
+  writeFileSync(tmpFilePath, `${themeCss}\n${indexCss}`);
+  
+  const outPath = `dist/styles-${themeName}.css`;
 
-fs.unlinkSync('src/.temp-combined.css');
+  execSync(`npx @tailwindcss/cli -i ${tmpFilePath} -o ${outPath} --minify`);
+
+  unlinkSync(tmpFilePath);
+
+  console.log(`✅ Build: ${outPath}`);
+});
